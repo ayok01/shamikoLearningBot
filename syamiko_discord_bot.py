@@ -135,8 +135,6 @@ def mk_new_sentence():
     serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
-        print(sarch)
-        print(serihu)
         if serihu == []:
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
 
