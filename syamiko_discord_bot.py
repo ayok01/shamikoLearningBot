@@ -71,7 +71,7 @@ def mk_misskey_list():
         line = line.replace('*', "")
         line = line.replace('\n', "")
         line = line.replace('\u3000', "")
-        with open('../data/sample.txt', 'a') as f:
+        with open('./data/sample.txt', 'a') as f:
             print(line, file=f)
         if line != "None" and line != "":
             text_list.append(line)
@@ -81,7 +81,7 @@ def mk_misskey_list():
 def mk_word_list():
     text_list = []
     misskey_list = mk_misskey_list()
-    with open("../data/syamiko_words.txt", encoding='utf-8') as data:
+    with open("./data/syamiko_words.txt", encoding='utf-8') as data:
         for line in data:
             char, text = line.rstrip('\n').split(" ")
             if char == "優子":
