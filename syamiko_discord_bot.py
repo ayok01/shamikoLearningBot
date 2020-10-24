@@ -152,14 +152,14 @@ async def send_message_every_time():
     if serihu != None:
         print(serihu.replace('None', ''))
         await channel_sent.send(serihu.replace('None', ''))
-#        post_json_data = {
-#            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
-#            "text": serihu
-#        }
-#        requests.post(
-#            post_url,
-#            json.dumps(post_json_data),
-#            headers={'Content-Type': 'application/json'})
+        post_json_data = {
+            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
+            "text": serihu
+        }
+        requests.post(
+            post_url,
+            json.dumps(post_json_data),
+            headers={'Content-Type': 'application/json'})
 
 
 @client.event
@@ -177,7 +177,6 @@ async def on_message(message):
     if message.channel.id == channel_id:
         serihu = mk_new_sentence()
         if serihu != None:
-            print(serihu.replace('None', ''))
             await channel_sent.send(serihu.replace('None', ''))
 
 client.run(TOKEN)
