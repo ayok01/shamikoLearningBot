@@ -1,0 +1,1 @@
+discordbot: python syamiko_discord_bot.py
