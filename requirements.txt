@@ -1,9 +1,0 @@
-discord
-MeCab
-llections 
-random
-tweepy
-json
-codecs
-requests
-re

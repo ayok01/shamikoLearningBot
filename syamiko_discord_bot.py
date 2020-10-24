@@ -94,8 +94,7 @@ def mk_mecab_list():
     word_list = mk_word_list()
     text_model = []
     for list_macab in word_list:
-        t = MeCab.Tagger(
-            "-Owakati -d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd")
+        t = MeCab.Tagger("-Owakati")
         parsed_text = t.parse(list_macab).replace("\n", "")
         parsed_text_list = [None] + parsed_text.split() + [None]
         for i in range(len(parsed_text_list) - 2):
