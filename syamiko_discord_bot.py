@@ -52,8 +52,7 @@ def mk_misskey_list():
     with open("./data/sample.txt", encoding='utf-8') as data:
         for line in data:
             text = line.rstrip('\n')
-            if text != 'None':
-                text_list.append(text)
+            text_list.append(text)
     response = requests.post(
         get_tl_url,
         json.dumps(get_tl_json_data),
@@ -71,9 +70,10 @@ def mk_misskey_list():
         line = line.replace('*', "")
         line = line.replace('\n', "")
         line = line.replace('\u3000', "")
-        with open('./data/sample.txt', 'a') as f:
-            print(line, file=f)
-        if line != "None" and line != "":
+        deq_list = line in text_list
+        if line != "None" and line != "" and deq_list == False:
+            with open('./data/sample.txt', 'a') as f:
+                print(line, file=f)
             text_list.append(line)
     return text_list
 
@@ -135,6 +135,7 @@ def mk_new_sentence():
     serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
+        print(serihu)
         if serihu == []:
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
 
