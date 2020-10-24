@@ -71,7 +71,7 @@ def mk_misskey_list():
         line = line.replace('*', "")
         line = line.replace('\n', "")
         line = line.replace('\u3000', "")
-        with open('./data/sample.txt', 'w') as f:
+        with open('./data/sample.txt', 'a') as f:
             print(line, file=f)
         if line != "None" and line != "":
             text_list.append(line)
@@ -80,18 +80,15 @@ def mk_misskey_list():
 
 def mk_word_list():
     text_list = []
-    misskey_list = mk_misskey_list()
     with open("./data/syamiko_words.txt", encoding='utf-8') as data:
         for line in data:
             char, text = line.rstrip('\n').split(" ")
             if char == "優子":
                 text_list.append(text)
-    text_list += misskey_list
     return text_list
 
 
-def mk_mecab_list():
-    word_list = mk_word_list()
+def mk_mecab_list(word_list):
     text_model = []
     for list_macab in word_list:
         t = MeCab.Tagger("-Owakati")
@@ -103,8 +100,7 @@ def mk_mecab_list():
     return text_model
 
 
-def mk_sentence():
-    mecab_list = mk_mecab_list()
+def mk_sentence(mecab_list):
     none_model = []
     for i in mecab_list:
         if None in i:
@@ -134,17 +130,20 @@ def mk_sentence():
 
 
 def mk_new_sentence():
-    word_list = mk_word_list()
-    serihu = "".join(map(str, mk_sentence()))
+    word_list = mk_misskey_list() + mk_word_list()
+    mecab_word_list = mk_mecab_list(word_list)
+    serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
+        print(sarch)
+        print(serihu)
         if serihu == []:
-            serihu = "".join(map(str, mk_sentence()))
+            serihu = "".join(map(str, mk_sentence(mecab_word_list)))
 
         elif sarch == False:
             return serihu
         else:
-            serihu = "".join(map(str, mk_sentence()))
+            serihu = "".join(map(str, mk_sentence(mecab_word_list)))
 
 
 @tasks.loop(seconds=600)
@@ -153,14 +152,14 @@ async def send_message_every_time():
     if serihu != None:
         print(serihu.replace('None', ''))
         await channel_sent.send(serihu.replace('None', ''))
-        post_json_data = {
-            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
-            "text": serihu
-        }
-        requests.post(
-            post_url,
-            json.dumps(post_json_data),
-            headers={'Content-Type': 'application/json'})
+#        post_json_data = {
+#            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
+#            "text": serihu
+#        }
+#        requests.post(
+#            post_url,
+#            json.dumps(post_json_data),
+#            headers={'Content-Type': 'application/json'})
 
 
 @client.event
