@@ -27,7 +27,7 @@ channel_sent = None
 
 post_url = "https://misskey.io/api/notes/create"
 get_tl_url = "https://misskey.io/api/notes/timeline"
-limit = 1
+limit = 30
 get_tl_json_data = {
     "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
     "limit": limit,
@@ -71,7 +71,7 @@ def mk_misskey_list():
         line = line.replace('*', "")
         line = line.replace('\n', "")
         line = line.replace('\u3000', "")
-        with open('./data/sample.txt', 'a') as f:
+        with open('./data/sample.txt', 'w') as f:
             print(line, file=f)
         if line != "None" and line != "":
             text_list.append(line)
