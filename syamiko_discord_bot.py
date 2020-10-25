@@ -153,7 +153,7 @@ async def send_message_every_time():
         await channel_sent.send(serihu.replace('None', ''))
         post_json_data = {
             "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
-            "text": serihu
+            "text": serihu.replace('None', '')
         }
         requests.post(
             post_url,
