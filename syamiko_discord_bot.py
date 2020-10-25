@@ -109,7 +109,7 @@ def mk_sentence(mecab_list):
                 none_model.append(text_list)
     random_word = random.choice(none_model)
     if random_word[2] == None:
-        return random_word
+        return random_word[1]
     fast_word = random_word[1], random_word[2]
     sentence = []
     sentence += random_word[1]
@@ -135,10 +135,8 @@ def mk_new_sentence():
     serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
-        print(serihu)
         if serihu == []:
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
-
         elif sarch == False:
             return serihu
         else:
@@ -147,13 +145,13 @@ def mk_new_sentence():
 
 @tasks.loop(seconds=600)
 async def send_message_every_time():
-    serihu = mk_new_sentence()
+    serihu = mk_new_sentence().replace('None', '')
     if serihu != None:
         print(serihu.replace('None', ''))
         await channel_sent.send(serihu.replace('None', ''))
         post_json_data = {
             "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
-            "text": serihu.replace('None', '')
+            "text": serihu
         }
         requests.post(
             post_url,
