@@ -147,8 +147,6 @@ def mk_new_sentence():
 async def send_message_every_time():
     serihu = mk_new_sentence().replace('None', '')
     if serihu != None:
-        print(serihu.replace('None', ''))
-        await channel_sent.send(serihu.replace('None', ''))
         post_json_data = {
             "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
             "text": serihu
@@ -166,14 +164,5 @@ async def on_ready():
     channel_sent = client.get_channel(channel_id)
     send_message_every_time.start()
 
-
-@client.event
-async def on_message(message):
-    if message.author.bot:
-        return
-    if message.channel.id == channel_id:
-        serihu = mk_new_sentence()
-        if serihu != None:
-            await channel_sent.send(serihu.replace('None', ''))
 
 client.run(TOKEN)
