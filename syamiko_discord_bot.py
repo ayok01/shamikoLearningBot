@@ -70,6 +70,8 @@ def mk_misskey_list():
         line = line.replace('*', "")
         line = line.replace('\n', "")
         line = line.replace('\u3000', "")
+        line = line.replace('俺', "私")
+        line = line.replace('僕', "私")
         deq_list = line in text_list
         if line != "None" and line != "" and deq_list == False:
             with open('./data/sample.txt', 'a') as f:
