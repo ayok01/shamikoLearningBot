@@ -72,6 +72,7 @@ def mk_misskey_list():
         line = line.replace('\u3000', "")
         line = line.replace('俺', "私")
         line = line.replace('僕', "私")
+        line = line.replace(' ', "")
         deq_list = line in text_list
         if line != "None" and line != "" and deq_list == False:
             with open('./data/sample.txt', 'a') as f:
@@ -140,6 +141,7 @@ def mk_new_sentence():
         if serihu == []:
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
         elif sarch == False:
+            serihu = serihu.replace('シャミ子', "私")
             return serihu
         else:
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
