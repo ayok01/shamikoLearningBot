@@ -74,12 +74,10 @@ def mk_misskey_list():
         line = line.replace('僕', "私")
         line = line.replace(' ', "")
         deq_list = line in text_list
-        print(line)
         if line != "None" and line != "" and deq_list == False:
             with open('./data/sample.txt', 'a') as f:
                 print(line, file=f)
             text_list.append(line)
-    print(text_list)
     return text_list
 
 
@@ -98,7 +96,6 @@ def mk_mecab_list(word_list):
     for list_macab in word_list:
         t = MeCab.Tagger("-Owakati")
         parsed_text = t.parse(list_macab).replace("\n", "")
-        print(parsed_text)
         parsed_text_list = [None] + parsed_text.split() + [None]
         for i in range(len(parsed_text_list) - 2):
             model_word = parsed_text_list[i:i+3]
@@ -125,9 +122,7 @@ def mk_sentence(mecab_list):
             ju = i[0], i[1]
             if ju == fast_word:
                 tes += [i]
-                print(tes)
         random_word = random.choice(tes)
-        print(random_word)
         sentence += random_word[1]
         fast_word = random_word[1], random_word[2]
         end_word = random_word[2]
@@ -139,9 +134,7 @@ def mk_sentence(mecab_list):
 
 def mk_new_sentence():
     word_list = mk_misskey_list() + mk_word_list()
-    print(word_list)
     mecab_word_list = mk_mecab_list(word_list)
-    print(mecab_word_list)
     serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
@@ -154,12 +147,10 @@ def mk_new_sentence():
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
 
 
-print(mk_new_sentence().replace('None', ''))
-
-
 @tasks.loop(seconds=600)
 async def send_message_every_time():
     serihu = mk_new_sentence().replace('None', '')
+    print(serihu)
     if serihu != None:
         post_json_data = {
             "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
