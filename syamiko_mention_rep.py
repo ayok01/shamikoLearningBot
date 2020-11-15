@@ -150,7 +150,7 @@ def mk_new_sentence():
 
 
 ws = create_connection(
-    "wss://misskey.io/streaming?i=2i3uSvQCFE4k3sHvpyCyb3iy0hxszo3L")
+    "wss://misskey.io/streaming?i=qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5")
 
 json_data = {
     "type": "connect",
