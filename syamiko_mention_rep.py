@@ -28,12 +28,12 @@ channel_sent = None
 # api = tweepy.API(auth)
 
 post_url = "https://misskey.io/api/notes/create"
-#get_tl_url = "https://misskey.io/api/notes/timeline"
-#limit = 30
-# get_tl_json_data = {
-#    "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
-#    "limit": limit,
-# }
+get_tl_url = "https://misskey.io/api/notes/timeline"
+limit = 30
+get_tl_json_data = {
+    "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
+    "limit": limit,
+}
 
 
 # def get_tl():
@@ -55,31 +55,36 @@ def mk_misskey_list():
         for line in data:
             text = line.rstrip('\n')
             text_list.append(text)
-#    response = requests.post(
-#        get_tl_url,
-#        json.dumps(get_tl_json_data),
-#        headers={'Content-Type': 'application/json'})
-#    hash = response.json()
-#    for num in range(limit):
-#        line = str(hash[num]["text"])
-#        line = re.sub(r'https?://[\w/:%#\$&\?\(\)~\.=\+\-…]+', "", line)
-#        line = re.sub(r'@.*', "", line)
-#        line = re.sub(r'#.*', "", line)
-#        line = re.sub(r':.*', "", line)
-#        line = re.sub(r"<[^>]*?>", "", line)
-#        line = re.sub(r"\(.*", "", line)
-#        line = line.replace('\\', "")
-#        line = line.replace('*', "")
-#        line = line.replace('\n', "")
-#        line = line.replace('\u3000', "")
-#        line = line.replace('俺', "私")
-#        line = line.replace('僕', "私")
-#        line = line.replace(' ', "")
-#        deq_list = line in text_list
-#        if line != "None" and line != "" and deq_list == False:
-#            with open('./data/sample.txt', 'a') as f:
-#                print(line, file=f)
-#            text_list.append(line)
+    return text_list
+
+
+def get_tl_misskey(text_list):
+    text_list = []
+    response = requests.post(
+        get_tl_url,
+        json.dumps(get_tl_json_data),
+        headers={'Content-Type': 'application/json'})
+    hash = response.json()
+    for num in range(limit):
+        line = str(hash[num]["text"])
+        line = re.sub(r'https?://[\w/:%#\$&\?\(\)~\.=\+\-…]+', "", line)
+        line = re.sub(r'@.*', "", line)
+        line = re.sub(r'#.*', "", line)
+        line = re.sub(r':.*', "", line)
+        line = re.sub(r"<[^>]*?>", "", line)
+        line = re.sub(r"\(.*", "", line)
+        line = line.replace('\\', "")
+        line = line.replace('*', "")
+        line = line.replace('\n', "")
+        line = line.replace('\u3000', "")
+        line = line.replace('俺', "私")
+        line = line.replace('僕', "私")
+        line = line.replace(' ', "")
+        deq_list = line in text_list
+        if line != "None" and line != "" and deq_list == False:
+            with open('./data/sample.txt', 'a') as f:
+                print(line, file=f)
+            text_list.append(line)
     return text_list
 
 
@@ -134,9 +139,13 @@ def mk_sentence(mecab_list):
     return sentence
 
 
+test = mk_misskey_list()
+word_list = test + mk_word_list() + \
+    get_tl_misskey(test)
+mecab_word_list = mk_mecab_list(word_list)
+
+
 def mk_new_sentence():
-    word_list = mk_misskey_list() + mk_word_list()
-    mecab_word_list = mk_mecab_list(word_list)
     serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
@@ -166,11 +175,7 @@ ws.send(json.dumps(json_data))
 while True:
     hash = ws.recv()
     test = json.loads(hash)
-    print(test)
-    print(test["body"]["type"])
     if test["body"]["type"] == "mention":
-        print(test["body"]["body"]["id"])
-        print(test["body"]["body"]["user"]["username"])
         if test["body"]["body"]["user"]["username"] != "Syamikobot":
 
             serihu = mk_new_sentence().replace('None', '')
