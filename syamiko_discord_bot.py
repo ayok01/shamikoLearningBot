@@ -49,6 +49,7 @@ get_tl_json_data = {
 
 def mk_misskey_list():
     text_list = []
+    choice_model = []
     with open("./data/sample.txt", encoding='utf-8') as data:
         for line in data:
             text = line.rstrip('\n')
@@ -72,13 +73,17 @@ def mk_misskey_list():
         line = line.replace('\u3000', "")
         line = line.replace('俺', "私")
         line = line.replace('僕', "私")
+        line = line.replace('オレ', "私")
         line = line.replace(' ', "")
         deq_list = line in text_list
         if line != "None" and line != "" and deq_list == False:
             with open('./data/sample.txt', 'a') as f:
                 print(line, file=f)
             text_list.append(line)
-    return text_list
+    for i in range(1, 250, 1):
+        random_word = random.choice(text_list)
+        choice_model.append(random_word)
+    return choice_model
 
 
 def mk_word_list():
@@ -147,25 +152,25 @@ def mk_new_sentence():
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
 
 
-@tasks.loop(seconds=600)
-async def send_message_every_time():
-    serihu = mk_new_sentence().replace('None', '')
-    print(serihu)
-    if serihu != None:
-        post_json_data = {
-            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
-            "text": serihu
-        }
-        requests.post(
-            post_url,
-            json.dumps(post_json_data),
-            headers={'Content-Type': 'application/json'})
+# @tasks.loop(seconds=600)
+# async def send_message_every_time():
+serihu = mk_new_sentence().replace('None', '')
+print(serihu)
+#    if serihu != None:
+#        post_json_data = {
+#            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
+#            "text": serihu
+#        }
+#        requests.post(
+#            post_url,
+#            json.dumps(post_json_data),
+#            headers={'Content-Type': 'application/json'})
 
 
-@client.event
-async def on_ready():
-    print('ログインしました')
-    global channel_sent
-    channel_sent = client.get_channel(channel_id)
-    send_message_every_time.start()
-client.run(TOKEN)
+# @client.event
+# async def on_ready():
+#    print('ログインしました')
+#    global channel_sent
+#    channel_sent = client.get_channel(channel_id)
+#    send_message_every_time.start()
+# client.run(TOKEN)
