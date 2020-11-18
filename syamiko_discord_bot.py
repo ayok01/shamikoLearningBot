@@ -152,25 +152,25 @@ def mk_new_sentence():
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
 
 
-# @tasks.loop(seconds=600)
-# async def send_message_every_time():
-serihu = mk_new_sentence().replace('None', '')
-print(serihu)
-#    if serihu != None:
-#        post_json_data = {
-#            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
-#            "text": serihu
-#        }
-#        requests.post(
-#            post_url,
-#            json.dumps(post_json_data),
-#            headers={'Content-Type': 'application/json'})
+@tasks.loop(seconds=600)
+async def send_message_every_time():
+    serihu = mk_new_sentence().replace('None', '')
+    print(serihu)
+    if serihu != None:
+        post_json_data = {
+            "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
+            "text": serihu
+        }
+        requests.post(
+            post_url,
+            json.dumps(post_json_data),
+            headers={'Content-Type': 'application/json'})
 
 
-# @client.event
-# async def on_ready():
-#    print('ログインしました')
-#    global channel_sent
-#    channel_sent = client.get_channel(channel_id)
-#    send_message_every_time.start()
-# client.run(TOKEN)
+@client.event
+async def on_ready():
+    print('ログインしました')
+    global channel_sent
+    channel_sent = client.get_channel(channel_id)
+    send_message_every_time.start()
+client.run(TOKEN)
