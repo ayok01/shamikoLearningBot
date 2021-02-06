@@ -80,7 +80,7 @@ def mk_misskey_list():
             with open('./data/sample.txt', 'a') as f:
                 print(line, file=f)
             text_list.append(line)
-    for i in range(1, 250, 1):
+    for i in range(1, 1000, 1):
         random_word = random.choice(text_list)
         choice_model.append(random_word)
     return choice_model
@@ -136,6 +136,14 @@ def mk_sentence(mecab_list):
             break
     return sentence
 
+def mk_filter_word(serihu):
+    text_list = []
+    with open("./data/filter.txt", encoding='utf-8') as data:
+        for line in data:
+            line = line.replace('\n', "")
+            serihu= serihu.replace(line, "not") 
+    return serihu
+
 
 def mk_new_sentence():
     word_list = mk_misskey_list() + mk_word_list()
@@ -143,7 +151,11 @@ def mk_new_sentence():
     serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
+        filter_judg = serihu in mk_filter_word(serihu)
+        print(filter_judg)
         if serihu == []:
+            serihu = "".join(map(str, mk_sentence(mecab_word_list)))
+        elif filter_judg == False:
             serihu = "".join(map(str, mk_sentence(mecab_word_list)))
         elif sarch == False:
             serihu = serihu.replace('シャミ子', "私")
