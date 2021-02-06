@@ -15,23 +15,15 @@ import re
 
 
 client = discord.Client()
-TOKEN = "NzY4ODQxNDkxNDIxNDYyNTkw.X5GVbw.bgTA2UTSUr5hcFXVs_nvdY7xZeI"
-channel_id = 768846161297276929
+TOKEN = ""
+channel_id = 
 channel_sent = None
-
-# CK = "hxIMXjJuFq1Sor3E6Ac7cw2pN"
-# CS = "Z9Yg3Nc7A8cszoMDzgZQlr5oPjtWbd68N00GPXCNYO10jRbWAI"
-# AT = "1168017285203648514-720aHEmyVNfKbtYdqhLjSMYXWAQeIb"
-# AS = "0TlgCVPofm1o4pJOPGspmvRxNPIaXKCSQIN6ibD5pQt06"
-# auth = tweepy.OAuthHandler(CK, CS)
-# auth.set_access_token(AT, AS)
-# api = tweepy.API(auth)
 
 post_url = "https://misskey.io/api/notes/create"
 get_tl_url = "https://misskey.io/api/notes/timeline"
 limit = 30
 get_tl_json_data = {
-    "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
+    "i": "",
     "limit": limit,
 }
 
@@ -159,7 +151,7 @@ def mk_new_sentence():
 
 
 ws = create_connection(
-    "wss://misskey.io/streaming?i=qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5")
+    "wss://misskey.io/streaming?i=") #i= 以降token
 
 json_data = {
     "type": "connect",
@@ -182,7 +174,7 @@ while True:
             print(serihu)
             if serihu != None:
                 post_json_data = {
-                    "i": "qJ6pGhE0rqAm8nAxrpuzgAmY1hwOcvS5",
+                    "i": "",#token
                     "text": serihu,
                     "replyId": test["body"]["body"]["id"]
                 }
