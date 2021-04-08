@@ -1,3 +1,4 @@
+# coding: utf_8
 import re
 import MeCab
 from collections import deque
