@@ -1,4 +1,4 @@
-# coding: utf_8
+
 import re
 import MeCab
 from collections import deque
@@ -55,11 +55,11 @@ def mk_getTL_list():
             with open('./data/sample.txt', 'a') as f:
                 print(line, file=f)
                 text_list.append(line)
-    #for i in range(1, 1000, 1):
-    #    random_word = random.choice(text_list)
-    #    choice_model.append(random_word)
-    #return choice_model
-    return text_list
+    for i in range(1, 100, 1):
+        random_word = random.choice(text_list)
+        choice_model.append(random_word)
+    return choice_model
+    #return text_list
 
 def mk_word_list():
     text_list = []
@@ -77,9 +77,11 @@ def mk_mecab_list(word_list):
         t = MeCab.Tagger("-Owakati")
         parsed_text = t.parse(list_macab).replace("\n", "")
         parsed_text_list = [None] + parsed_text.split() + [None]
+        print(parsed_text_list)
         for i in range(len(parsed_text_list) - 2):
             model_word = parsed_text_list[i:i+3]
             text_model.append(model_word)
+    print(text_model)
     return text_model
 
 
@@ -122,7 +124,9 @@ def mk_filter_word(serihu):
 
 def mk_new_sentence():
     word_list = mk_getTL_list() + mk_word_list()
+    print(word_list)
     mecab_word_list = mk_mecab_list(word_list)
+    print(mecab_word_list)
     serihu = "".join(map(str, mk_sentence(mecab_word_list)))
     while True:
         sarch = serihu in word_list
