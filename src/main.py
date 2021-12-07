@@ -8,7 +8,7 @@ sched = BlockingScheduler()
 class Config(object):
     SCHEDULER_API_ENABLED = True
 
-@sched.scheduled_job('cron', id='note', minute='*/15')
+@sched.scheduled_job('cron', id='note', minute='*/10')
 def cron_note():
     note()
     
