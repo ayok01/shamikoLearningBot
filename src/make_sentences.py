@@ -28,7 +28,7 @@ def mk_misskey_list():
             text_list.append(text)
     return text_list
 
-def get_tl_misskey(text_list):
+def get_tl_misskey():
     text_list = []
     response = requests.post(
         get_tl_url,
@@ -119,7 +119,7 @@ def mk_new_sentence(word_list, mecab_word_list):
 
 def make_sentences():
     geted_word_list = mk_misskey_list()
-    word_list = mk_word_list() + get_tl_misskey(geted_word_list)
+    word_list = mk_word_list() + get_tl_misskey()+geted_word_list
     mecab_word_list = mk_mecab_list(word_list)
     sentence_1 = mk_new_sentence(word_list,mecab_word_list)
     return sentence_1
