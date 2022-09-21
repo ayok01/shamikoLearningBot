@@ -9,3 +9,5 @@ __pycache__/
 
 config.json
 getword.txt
+client_id.txt
+access_token.txt
