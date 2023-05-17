@@ -2,7 +2,6 @@ import MeCab
 
 def mk_mecab_list(word):
     tagger  = MeCab.Tagger("-Owakati")
-    print(tagger.parse(word).split())
     return(tagger.parse(word).split())
 
 def judgement_sentence(sentence_word):
@@ -13,6 +12,5 @@ def judgement_sentence(sentence_word):
             text_list.append(text)
     paese_text = mk_mecab_list(sentence_word)
     for i in paese_text:
-        print(i)
         if i in text_list:
             return True
