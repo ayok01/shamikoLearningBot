@@ -1,4 +1,5 @@
 from make_sentences import make_sentences
+from ngword_filter import judgement_sentence
 import numpy as np
 from misskey import Misskey
 import json
@@ -14,6 +15,5 @@ def note():
     if np.random.randint(1,91) == 1:
         nyanpass_status = misskey.notes_create("これで勝ったと思うなよー！")
     sentence_1= make_sentences()
-    misskey.notes_create(sentence_1)
-
-
+    if judgement_sentence(sentence_1) != True:
+        misskey.notes_create(sentence_1)

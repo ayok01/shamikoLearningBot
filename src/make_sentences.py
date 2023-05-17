@@ -52,7 +52,7 @@ def get_tl_misskey():
         line = line.replace(' ', "")
         deq_list = line in text_list
         if line != "None" and line != "" and deq_list == False:
-            with open('../data/getword.txt', 'a') as f:
+            with open('../data/getword.txt', 'a', encoding='utf-8') as f:
                 print(line, file=f)
             text_list.append(line)
     return text_list
