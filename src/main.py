@@ -1,8 +1,12 @@
+import asyncio
 from apscheduler.schedulers.blocking import BlockingScheduler
 from note import note
+from reply import runner
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
+asyncio.get_event_loop().run_until_complete(runner())
+
 
 sched = BlockingScheduler()
 class Config(object):
